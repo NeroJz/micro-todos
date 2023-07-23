@@ -1,4 +1,4 @@
-# Udacity Nanodegree Devops Using Microsfot Azure
+# Simple Todo App using Microservices in K8s
 
 This project showcase the Todo Apps using microservices
 
