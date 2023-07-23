@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-rabbitmq-2-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-rabbitmq-2
+  template:
+    metadata:
+      labels:
+        app: todo-rabbitmq-2
+    spec:
+      containers:
+        - name: todo-rabbitmq-2
+          image: rabbitmq:3.11.19-management
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-rabbitmq-svc
+spec:
+  selector:
+    app: todo-rabbitmq-2
+  ports:
+    - name: management
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+    - name: engine
+      protocol: TCP
+      port: 5672
+      targetPort: 5672

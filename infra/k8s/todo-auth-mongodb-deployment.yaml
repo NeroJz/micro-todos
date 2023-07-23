@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-auth-mongodb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-auth-mongodb
+  template:
+    metadata:
+      labels:
+        app: todo-auth-mongodb
+    spec:
+      containers:
+        - name: todo-auth-mongodb
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-auth-mongodb-svc
+spec:
+  selector:
+    app: todo-auth-mongodb
+  ports:
+    - name: todo-auth-mongodb-port
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

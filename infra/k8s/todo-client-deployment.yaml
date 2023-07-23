@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-client-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-client
+  template:
+    metadata:
+      labels:
+        app: todo-client
+    spec:
+      containers:
+        - name: todo-client
+          image: nerojz/todo-client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-client-svc
+spec:
+  selector:
+    app: todo-client
+  ports:
+    - name: todo-client
+      protocol: TCP
+      port: 80
+      targetPort: 80

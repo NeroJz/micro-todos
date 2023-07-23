@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-auth-2-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-auth
+  template:
+    metadata:
+      labels:
+        app: todo-auth
+    spec:
+      containers:
+        - name: todo-auth
+          image: nerojz/todo-auth
+          env:
+            - name: RMQ_CONNECTION
+              value: 'amqp://todo-rabbitmq-svc.rabbitmq.svc.cluster.local'
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-auth-svc
+spec:
+  selector:
+    app: todo-auth
+  ports:
+    - name: todo-auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

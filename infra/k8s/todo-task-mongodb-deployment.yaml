@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-task-mongodb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-task-mongodb
+  template:
+    metadata:
+      labels:
+        app: todo-task-mongodb
+    spec:
+      containers:
+        - name: todo-task-mongodb
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-task-mongodb-svc
+spec:
+  selector:
+    app: todo-task-mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
